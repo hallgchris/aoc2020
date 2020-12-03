@@ -1,7 +1,12 @@
 import os
 
-x_stride = 3
-y_stride = 1
+slopes = [
+    (1, 1),
+    (3, 1),
+    (5, 1),
+    (7, 1),
+    (1, 2),
+]
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(__file__)
@@ -15,12 +20,16 @@ if __name__ == "__main__":
     width = len(tree_map[0]) - 1
     height = len(tree_map)
 
-    x, y = 0, 0
-    tree_count = 0
-    while y < height - 1:
-        x = (x + x_stride) % width
-        y += y_stride
-        if tree_map[y][x] == "#":
-            tree_count += 1
+    tree_product = 1
 
-    print(tree_count)
+    for slope in slopes:
+        x, y = 0, 0
+        tree_count = 0
+        while y < height - 1:
+            x = (x + slope[0]) % width
+            y += slope[1]
+            if tree_map[y][x] == "#":
+                tree_count += 1
+        tree_product *= tree_count
+
+    print(tree_product)
